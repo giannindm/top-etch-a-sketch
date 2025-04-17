@@ -26,7 +26,7 @@ function renderGrid(numSquares) {
     });
 }
 
-// Set up event listeners
+// Set up event listeners for clearing the grid and creating a new one
 clear.addEventListener("click", () => {
     squares.forEach(square => {
         square.classList.remove("hovered");
@@ -36,9 +36,7 @@ clear.addEventListener("click", () => {
 
 newGrid.addEventListener("click", () => {
     const input = parseInt(prompt("How many squares per side do you want in the new grid?"));
-    squares.forEach(square => {
-        square.remove();
-    });
+    grid.innerHTML = '';
     if (!isNaN(input) && input > 0 && input <= 100) {
         renderGrid(input);
     } else {
