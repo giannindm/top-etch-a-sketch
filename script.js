@@ -9,6 +9,7 @@ function renderGrid(numSquares) {
         square.setAttribute("class", "square");
         const squareWidth = 720/numSquares;
         square.style.width = `${squareWidth}px`;
+        square.style.opacity = 0;
         grid.appendChild(square);
     };
 
@@ -17,6 +18,10 @@ function renderGrid(numSquares) {
     squares.forEach(square => {
         square.addEventListener("mouseover", () => {
             square.classList.add("hovered");
+            let currentOpacity = parseFloat(square.style.opacity) || 0;
+            if (currentOpacity < 1) {
+            square.style.opacity = (currentOpacity + 0.1).toFixed(2);
+            }
         });    
     });
 }
@@ -25,15 +30,20 @@ function renderGrid(numSquares) {
 clear.addEventListener("click", () => {
     squares.forEach(square => {
         square.classList.remove("hovered");
+        square.style.opacity = 0;
     });
 });
 
 newGrid.addEventListener("click", () => {
-    let input = prompt("How many squares per side do you want in the new grid?");
+    const input = parseInt(prompt("How many squares per side do you want in the new grid?"));
     squares.forEach(square => {
         square.remove();
     });
-    renderGrid(input);
+    if (!isNaN(input) && input > 0 && input <= 100) {
+        renderGrid(input);
+    } else {
+        alert("Please enter a valid number between 1 and 100.");
+    }
 });
 
 // Initial render
